@@ -29,7 +29,7 @@ const PROJECT_DETAILS = {
       { model: "TransMIL (Shao et al., 2021)", auc: "97.4", acc: "82.5", f1: "82.9", kappa: "91.5" },
       { model: "MIL-ViT (Bi et al., 2023)", auc: "97.1", acc: "83.2", f1: "84.0", kappa: "91.1" },
       { model: "MIL-ViTa", auc: "98.1", acc: "85.8", f1: "85.5", kappa: "92.3" },
-      { model: "Graph-DR (Akter et al., 2025)", auc: "-", acc: "96.0", f1: "96.0", kappa: "95.0" },
+      { model: "Graph-DR (Akter et al., 2025)", auc: "-", acc: "96.02", f1: "96.02", kappa: "95.03" },
       { model: "DR-KANTreeNet (Ours)", auc: "97.1", acc: "86.2", f1: "86.2", kappa: "91.2", highlight: true, bestMetrics: ["acc", "f1"] }
     ]
   }
@@ -161,11 +161,6 @@ const Motivation = () => (
                         src="https://upload.wikimedia.org/wikipedia/commons/7/75/Fundus_photograph_of_normal_right_eye.jpg" 
                         alt="Normal Retina" 
                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                        onError={(e) => {
-                            // Fallback to abstract medical placeholder if blocked
-                            e.currentTarget.src = "https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=600&auto=format&fit=crop";
-                            e.currentTarget.style.filter = "hue-rotate(90deg) grayscale(50%)";
-                        }}
                      />
                      <div className="absolute bottom-0 w-full bg-slate-900/80 backdrop-blur-sm py-2 text-center">
                         <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest">Normal Retina</span>
@@ -178,10 +173,6 @@ const Motivation = () => (
                         src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Diabetic_retinopathy_-_fundus.jpg" 
                         alt="Diabetic Retinopathy" 
                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                        onError={(e) => {
-                            // Fallback to abstract medical placeholder if blocked
-                            e.currentTarget.src = "https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=600&auto=format&fit=crop";
-                        }}
                      />
                      
                      {/* CV Detection Simulation Overlay */}
