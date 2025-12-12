@@ -317,76 +317,40 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
 
     // --- Pipeline Steps (Image-based) ---
     const PIPELINE_STEPS = [
-      {
-        id: 1,
-        title: "Original Fundus Image",
-        subtitle: "Input Data",
-        desc: "Original DR image read from disk.",
-        details:
-          "High-resolution retinal scan captured via fundus photography. Contains raw pixel data including noise and varying lighting conditions that must be processed.",
-        image: "step1_original.jpg",
+      { id: 1, title: "Original Fundus Image", subtitle: "Input Data", desc: "Original DR image read from disk.",
+        details: "High-resolution retinal scan captured via fundus photography. Contains raw pixel data including noise and varying lighting conditions that must be processed.",
+        image: "step1_original.jpg"
       },
-      {
-        id: 2,
-        title: "Resized to (448×448)",
-        subtitle: "Preprocessing",
-        desc: "Resized to model input size and normalized.",
-        details:
-          "Standardization of input dimensions ensures consistent feature extraction across different camera types. Color normalization reduces lighting variance.",
-        image: "step2_resize.jpg",
+      { id: 2, title: "Resized to (448×448)", subtitle: "Preprocessing", desc: "Resized to model input size and normalized.",
+        details: "Standardization of input dimensions ensures consistent feature extraction across different camera types. Color normalization reduces lighting variance.",
+        image: "step2_resize.jpg"
       },
-      {
-        id: 3,
-        title: "Vessel Tree Branch",
-        subtitle: "VesselTreeNet",
-        desc: "Extract vessel-like structures from green channel.",
-        details:
-          "A dedicated vessel extraction branch highlights vascular topology, which is a critical biomarker for diabetic retinopathy progression.",
-        image: "step3_vessel.jpg",
+      { id: 3, title: "Vessel Tree Branch", subtitle: "VesselTreeNet", desc: "Extract vessel-like structures from green channel.",
+        details: "A dedicated vessel extraction branch highlights vascular topology, which is a critical biomarker for diabetic retinopathy progression.",
+        image: "step3_vessel.jpg"
       },
-      {
-        id: 4,
-        title: "Lesion Attention",
-        subtitle: "Local Attention",
-        desc: "Model focuses on lesion-prone regions.",
-        details:
-          "Lesion attention integrates high-level CNN features with the original image to emphasize hemorrhages and exudates.",
-        image: "step4_lesion.jpg",
+      { id: 4, title: "Lesion Attention", subtitle: "Local Attention", desc: "Model focuses on lesion-prone regions.",
+        details: "Lesion attention integrates high-level CNN features with the original image to emphasize hemorrhages and exudates.",
+        image: "step4_lesion.jpg"
       },
-      {
-        id: 5,
-        title: "DAM-Enhanced Local Structures",
-        subtitle: "Discriminative Attention",
-        desc: "Local discriminative textures are amplified.",
-        details:
-          "The KANDAM module strengthens fine-grained lesion patterns while suppressing irrelevant background responses.",
-        image: "step5_dam.jpg",
+      { id: 5, title: "DAM-Enhanced Local Structures", subtitle: "Discriminative Attention", desc: "Local discriminative textures are amplified.",
+        details: "The KANDAM module strengthens fine-grained lesion patterns while suppressing irrelevant background responses.",
+        image: "step5_dam.jpg"
       },
-      {
-        id: 6,
-        title: "ViT-S Global Context",
-        subtitle: "Global Reasoning",
-        desc: "Global attention from Vision Transformer.",
-        details:
-          "ViT captures long-range dependencies and global retinal context that complements local CNN-based features.",
-        image: "step6_vit.jpg",
+      { id: 6, title: "ViT-S Global Context", subtitle: "Global Reasoning", desc: "Global attention from Vision Transformer.",
+        details: "ViT captures long-range dependencies and global retinal context that complements local CNN-based features.",
+        image: "step6_vit.jpg"
       },
-      {
-        id: 7,
-        title: "Final Prediction",
-        subtitle: "Decision Tree Output",
-        desc: "Severity classification probabilities.",
-        details:
-          "A differentiable decision tree aggregates all feature branches and produces an interpretable severity prediction.",
-        image: "step7_prediction.jpg",
-      },
+      { id: 7, title: "Final Prediction", subtitle: "Decision Tree Output", desc: "Severity classification probabilities.",
+        details: "A differentiable decision tree aggregates all feature branches and produces an interpretable severity prediction.",
+        image: "step7_prediction.jpg"
+      }
     ];
 
     const Approach = () => {
       const [activeStep, setActiveStep] = useState(0);
       const [isPlaying, setIsPlaying] = useState(false);
 
-      // Auto-play: switch every 2 seconds
       useEffect(() => {
         if (!isPlaying) return;
         const timer = setInterval(() => {
@@ -441,7 +405,6 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
                   }}
                 />
 
-                {/* Text explanation BELOW the image */}
                 <div className="mt-4 p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-2 text-slate-300 text-sm leading-relaxed">
                   <p>
                     <span className="font-semibold text-cyan-300">The Detail Expert:</span>{" "}
@@ -536,15 +499,23 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
                       <span className="text-slate-300">Step {activeStep + 1}/{PIPELINE_STEPS.length}</span>
                     </div>
 
-                    {/* Bottom small step buttons */}
-                    <div className="absolute bottom-24 left-6 right-6">
+                    <p id="pipeline-error" className="hidden absolute bottom-4 left-4 right-4 text-sm text-red-300 bg-red-500/10 border border-red-500/30 rounded-lg p-3">
+                      Pipeline image failed to load. Please ensure all <code>step*.jpg</code> files are in the same directory as <code>index.html</code>.
+                    </p>
+                  </div>
+
+                  {/* Step Info Overlay */}
+                  <div className="bg-black/80 backdrop-blur-md p-6 border-t border-slate-700">
+                    {/* ✅ Step selector moved BELOW image (no overlay on image) */}
+                    <div className="mb-4">
                       <div className="h-2 bg-slate-800 rounded-full overflow-hidden border border-slate-700">
                         <div
                           className="h-full bg-cyan-500 transition-all duration-300"
                           style={{ width: `${((activeStep + 1) / PIPELINE_STEPS.length) * 100}%` }}
                         ></div>
                       </div>
-                      <div className="mt-2 flex flex-wrap gap-2 justify-between text-[10px] text-slate-500">
+
+                      <div className="mt-3 flex flex-wrap gap-2 justify-between text-[10px] text-slate-500">
                         {PIPELINE_STEPS.map((s, i) => (
                           <button
                             key={s.id}
@@ -563,15 +534,8 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
                           </button>
                         ))}
                       </div>
-
-                      <p id="pipeline-error" className="hidden mt-3 text-sm text-red-300 bg-red-500/10 border border-red-500/30 rounded-lg p-3">
-                        Pipeline image failed to load. Please ensure all <code>step*.jpg</code> files are in the same directory as <code>index.html</code>.
-                      </p>
                     </div>
-                  </div>
 
-                  {/* Step Info Overlay */}
-                  <div className="bg-black/80 backdrop-blur-md p-6 border-t border-slate-700">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-cyan-400 text-xs font-bold uppercase">{step.subtitle}</span>
                       <span className="text-slate-600 text-xs">|</span>
@@ -930,5 +894,4 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
   </script>
 </body>
 </html>
-
 
