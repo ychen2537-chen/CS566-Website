@@ -319,7 +319,7 @@
             title: "ViT-S Global Context",
             subtitle: "Vision Transformer",
             desc: "Global attention heatmap based on ViT-S patch token norms.",
-            details: "Vision Transformer (ViT-Small) processes the image as patches, capturing long-range dependencies and global retinal health context missed by local convolutions.",
+            details: "Vision Transformer (ViT-Small) processes the image as the patches, capturing long-range dependencies and global retinal health context missed by local convolutions.",
             type: "heatmap-vit"
         },
         {
@@ -359,36 +359,45 @@
                     A step-by-step breakdown of how DR-KANTreeNet processes a retinal scan, from raw input to final diagnosis.
                 </p>
                 </div>
-            {/* Architecture Diagram */}
-<div className="mb-12 bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden">
-  <div className="p-4 md:p-6 border-b border-slate-800 flex items-center justify-between">
-    <div className="text-white font-semibold">
-      <i className="fas fa-sitemap mr-2 text-cyan-400"></i>
-      Enhanced DR-KANTreeNet Architecture
-    </div>
-    <a
-      href="diagram.png"
-      target="_blank"
-      rel="noreferrer"
-      className="text-xs text-slate-400 hover:text-white border border-slate-700 px-3 py-1 rounded-full"
-    >
-      Open image
-    </a>
-  </div>
 
-  <div className="p-3 md:p-6 bg-black">
-    <img
-      src="diagram.png"
-      alt="Enhanced DR-KANTreeNet Architecture Diagram"
-      className="w-full h-auto rounded-lg"
-      loading="lazy"
-      onError={(e) => {
-        console.error("Failed to load diagram.png");
-        e.currentTarget.style.display = "none";
-      }}
-    />
-  </div>
-</div>
+                {/* Architecture Diagram */}
+                <div className="mb-12 bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden">
+                  <div className="p-4 md:p-6 border-b border-slate-800 flex items-center justify-between">
+                    <div className="text-white font-semibold">
+                      <i className="fas fa-sitemap mr-2 text-cyan-400"></i>
+                      Enhanced DR-KANTreeNet Architecture
+                    </div>
+                    <a
+                      href="diagram.png?v=1"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-xs text-slate-400 hover:text-white border border-slate-700 px-3 py-1 rounded-full"
+                    >
+                      Open image
+                    </a>
+                  </div>
+
+                  <div className="p-3 md:p-6 bg-black">
+                    <img
+                      src="diagram.png?v=1"
+                      alt="Enhanced DR-KANTreeNet Architecture Diagram"
+                      className="w-full h-auto rounded-lg"
+                      loading="lazy"
+                      onError={() => {
+                        const el = document.getElementById("diagram-error");
+                        if (el) el.classList.remove("hidden");
+                        console.error("Failed to load diagram.png. Verify it exists at /CS566-Website/diagram.png");
+                      }}
+                    />
+                    <p
+                      id="diagram-error"
+                      className="hidden mt-3 text-sm text-red-300 bg-red-500/10 border border-red-500/30 rounded-lg p-3"
+                    >
+                      diagram.png failed to load. Please ensure <code>diagram.png</code> is in the same directory as
+                      <code> index.html</code> on GitHub Pages (and filename casing matches exactly).
+                    </p>
+                  </div>
+                </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
                 
@@ -446,7 +455,7 @@
                                 <img 
                                 src="DR_Eye.png"
                                 className="w-full h-full object-cover grayscale contrast-[3.0] brightness-[1.5] invert mix-blend-screen opacity-90" 
-                                style={{filter: 'contrast(10) grayscale(1)'}} // Simplified vessel-like look
+                                style={{filter: 'contrast(10) grayscale(1)'}}
                                 />
                             </div>
                         )}
@@ -522,323 +531,292 @@
         };
 
         const Implementation = () => (
-        <section id="implementation" className="py-20 bg-slate-900">
+          <section id="implementation" className="py-20 bg-slate-900">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 className="text-3xl font-bold text-white mb-12 text-center">Implementation Details</h2>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Code Snippet */}
+              <h2 className="text-3xl font-bold text-white mb-12 text-center">Implementation Details</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="bg-[#1e1e1e] rounded-xl overflow-hidden shadow-2xl border border-slate-700 font-mono text-sm">
-                    <div className="bg-[#252526] px-4 py-2 flex items-center gap-2 border-b border-black">
-                        <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                        <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                        <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                        <span className="ml-2 text-slate-400 text-xs">model.py</span>
-                    </div>
-                    <div className="p-4 text-slate-300 overflow-x-auto">
-                        <pre>
-        {`class KANTreeNet(nn.Module):
-            def __init__(self, num_classes=5):
-                super().__init__()
-                # KAN Feature Extractor
-                self.features = KANLayer(
-                    in_features=2048, 
-                    hidden=512
-                )
-                
-                # Differentiable Tree Head
-                self.tree = NeuralDecisionTree(
-                    depth=4, 
-                    classes=num_classes
-                )
+                  <div className="bg-[#252526] px-4 py-2 flex items-center gap-2 border-b border-black">
+                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    <span className="ml-2 text-slate-400 text-xs">model.py</span>
+                  </div>
+                  <div className="p-4 text-slate-300 overflow-x-auto">
+                    <pre>
+{`class KANTreeNet(nn.Module):
+    def __init__(self, num_classes=5):
+        super().__init__()
+        self.features = KANLayer(in_features=2048, hidden=512)
+        self.tree = NeuralDecisionTree(depth=4, classes=num_classes)
 
-            def forward(self, x):
-                features = self.features(x)
-                return self.tree(features)`}
-                        </pre>
-                    </div>
+    def forward(self, x):
+        features = self.features(x)
+        return self.tree(features)`}
+                    </pre>
+                  </div>
                 </div>
 
-                {/* Tech Stack */}
                 <div className="grid grid-cols-2 gap-4">
-                    <div className="p-6 bg-slate-800 rounded-xl border border-slate-700">
-                        <h3 className="text-white font-semibold mb-4">Dataset</h3>
-                        <div className="flex items-center gap-3 mb-2">
-                            <i className="fas fa-database text-cyan-400"></i>
-                            <span className="text-slate-300">APTOS 2019</span>
-                        </div>
-                        <p className="text-sm text-slate-500">3,662 retina images. Class imbalance handled via SMOTE.</p>
+                  <div className="p-6 bg-slate-800 rounded-xl border border-slate-700">
+                    <h3 className="text-white font-semibold mb-4">Dataset</h3>
+                    <div className="flex items-center gap-3 mb-2">
+                      <i className="fas fa-database text-cyan-400"></i>
+                      <span className="text-slate-300">APTOS 2019</span>
                     </div>
-                    
-                    <div className="p-6 bg-slate-800 rounded-xl border border-slate-700">
-                        <h3 className="text-white font-semibold mb-4">Preprocessing</h3>
-                        <ul className="text-sm text-slate-400 space-y-2">
-                            <li><i className="fas fa-angle-right text-emerald-400 mr-2"></i>Resize to 448x448</li>
-                            <li><i className="fas fa-angle-right text-emerald-400 mr-2"></i>CLAHE Enhancement</li>
-                            <li><i className="fas fa-angle-right text-emerald-400 mr-2"></i>Circle Crop</li>
-                        </ul>
-                    </div>
+                    <p className="text-sm text-slate-500">3,662 retina images. Class imbalance handled via SMOTE.</p>
+                  </div>
 
-                    <div className="col-span-2 p-6 bg-slate-800 rounded-xl border border-slate-700">
-                        <h3 className="text-white font-semibold mb-4">Stack</h3>
-                        <div className="flex gap-4 flex-wrap">
-                            {PROJECT_DETAILS.stack.map(tech => (
-                                <span key={tech} className="px-3 py-1 bg-slate-700 rounded-full text-xs text-cyan-300 border border-slate-600">
-                                {tech}
-                                </span>
-                            ))}
-                        </div>
+                  <div className="p-6 bg-slate-800 rounded-xl border border-slate-700">
+                    <h3 className="text-white font-semibold mb-4">Preprocessing</h3>
+                    <ul className="text-sm text-slate-400 space-y-2">
+                      <li><i className="fas fa-angle-right text-emerald-400 mr-2"></i>Resize to 448x448</li>
+                      <li><i className="fas fa-angle-right text-emerald-400 mr-2"></i>CLAHE Enhancement</li>
+                      <li><i className="fas fa-angle-right text-emerald-400 mr-2"></i>Circle Crop</li>
+                    </ul>
+                  </div>
+
+                  <div className="col-span-2 p-6 bg-slate-800 rounded-xl border border-slate-700">
+                    <h3 className="text-white font-semibold mb-4">Stack</h3>
+                    <div className="flex gap-4 flex-wrap">
+                      {PROJECT_DETAILS.stack.map(tech => (
+                        <span key={tech} className="px-3 py-1 bg-slate-700 rounded-full text-xs text-cyan-300 border border-slate-600">
+                          {tech}
+                        </span>
+                      ))}
                     </div>
+                  </div>
                 </div>
-                </div>
+
+              </div>
             </div>
-        </section>
+          </section>
         );
 
         const Results = () => (
-        <section id="results" className="py-20 bg-slate-950">
+          <section id="results" className="py-20 bg-slate-950">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 className="text-3xl font-bold text-white mb-12 text-center">Experimental Results</h2>
-                
-                {/* Top Metrics Cards */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-                    {[
-                        { label: "Accuracy", value: PROJECT_DETAILS.results.accuracy, icon: "fa-bullseye", color: "text-cyan-400", border: "border-cyan-500/30" },
-                        { label: "AUC Score", value: PROJECT_DETAILS.results.auc, icon: "fa-chart-area", color: "text-emerald-400", border: "border-emerald-500/30" },
-                        { label: "F1 Score", value: PROJECT_DETAILS.results.f1, icon: "fa-balance-scale", color: "text-purple-400", border: "border-purple-500/30" },
-                        { label: "Kappa", value: PROJECT_DETAILS.results.kappa, icon: "fa-check-double", color: "text-amber-400", border: "border-amber-500/30" },
-                    ].map((m, i) => (
-                        <div key={i} className={`bg-slate-900 p-6 rounded-xl border ${m.border} text-center group hover:bg-slate-800 transition-colors`}>
-                            <div className={`text-3xl font-bold text-white mb-2 group-hover:scale-110 transition-transform inline-block`}>{m.value}</div>
-                            <div className={`text-xs font-bold uppercase tracking-wider ${m.color}`}>
-                                <i className={`fas ${m.icon} mr-2`}></i>{m.label}
-                            </div>
-                        </div>
-                    ))}
-                </div>
+              <h2 className="text-3xl font-bold text-white mb-12 text-center">Experimental Results</h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+                {[
+                  { label: "Accuracy", value: PROJECT_DETAILS.results.accuracy, icon: "fa-bullseye", color: "text-cyan-400", border: "border-cyan-500/30" },
+                  { label: "AUC Score", value: PROJECT_DETAILS.results.auc, icon: "fa-chart-area", color: "text-emerald-400", border: "border-emerald-500/30" },
+                  { label: "F1 Score", value: PROJECT_DETAILS.results.f1, icon: "fa-balance-scale", color: "text-purple-400", border: "border-purple-500/30" },
+                  { label: "Kappa", value: PROJECT_DETAILS.results.kappa, icon: "fa-check-double", color: "text-amber-400", border: "border-amber-500/30" },
+                ].map((m, i) => (
+                  <div key={i} className={`bg-slate-900 p-6 rounded-xl border ${m.border} text-center group hover:bg-slate-800 transition-colors`}>
+                    <div className="text-3xl font-bold text-white mb-2 group-hover:scale-110 transition-transform inline-block">{m.value}</div>
+                    <div className={`text-xs font-bold uppercase tracking-wider ${m.color}`}>
+                      <i className={`fas ${m.icon} mr-2`}></i>{m.label}
+                    </div>
+                  </div>
+                ))}
+              </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Performance Table */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-3 bg-slate-900 rounded-xl border border-slate-800 p-6">
-                    <div className="flex justify-between items-center mb-6">
-                        <h3 className="text-xl font-semibold text-white">Comparative Analysis on APTOS 2019</h3>
-                        <span className="text-xs text-slate-500 bg-slate-800 px-2 py-1 rounded border border-slate-700">Metrics in % (scaled)</span>
-                    </div>
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left border-collapse">
-                            <thead>
-                            <tr className="border-b border-slate-800">
-                                <th className="py-4 px-4 text-slate-400 font-medium text-sm uppercase">Method</th>
-                                <th className="py-4 px-4 text-slate-400 font-medium text-sm uppercase text-right">AUC</th>
-                                <th className="py-4 px-4 text-slate-400 font-medium text-sm uppercase text-right">ACC</th>
-                                <th className="py-4 px-4 text-slate-400 font-medium text-sm uppercase text-right">F1</th>
-                                <th className="py-4 px-4 text-slate-400 font-medium text-sm uppercase text-right">Kappa</th>
+                  <div className="flex justify-between items-center mb-6">
+                    <h3 className="text-xl font-semibold text-white">Comparative Analysis on APTOS 2019</h3>
+                    <span className="text-xs text-slate-500 bg-slate-800 px-2 py-1 rounded border border-slate-700">Metrics in % (scaled)</span>
+                  </div>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left border-collapse">
+                      <thead>
+                        <tr className="border-b border-slate-800">
+                          <th className="py-4 px-4 text-slate-400 font-medium text-sm uppercase">Method</th>
+                          <th className="py-4 px-4 text-slate-400 font-medium text-sm uppercase text-right">AUC</th>
+                          <th className="py-4 px-4 text-slate-400 font-medium text-sm uppercase text-right">ACC</th>
+                          <th className="py-4 px-4 text-slate-400 font-medium text-sm uppercase text-right">F1</th>
+                          <th className="py-4 px-4 text-slate-400 font-medium text-sm uppercase text-right">Kappa</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {PROJECT_DETAILS.results.comparison.map((row, i) => {
+                          const isBest = (metric) => row.bestMetrics && row.bestMetrics.includes(metric);
+                          return (
+                            <tr key={i} className={`border-b border-slate-800 transition-colors hover:bg-slate-800/50 ${row.highlight ? 'bg-cyan-900/20 border-cyan-500/30' : ''}`}>
+                              <td className={`py-4 px-4 ${row.highlight ? 'text-cyan-400 font-bold' : 'text-slate-300'}`}>
+                                {row.model}
+                                {row.highlight && <span className="ml-2 text-[10px] bg-cyan-500 text-white px-1.5 py-0.5 rounded-full align-middle">OURS</span>}
+                              </td>
+                              <td className={`py-4 px-4 text-right ${isBest('auc') ? 'text-cyan-400 font-bold text-lg' : (row.highlight ? 'text-slate-300' : 'text-slate-400')}`}>{row.auc}</td>
+                              <td className={`py-4 px-4 text-right ${isBest('acc') ? 'text-cyan-400 font-bold text-lg' : (row.highlight ? 'text-slate-300' : 'text-slate-400')}`}>{row.acc}</td>
+                              <td className={`py-4 px-4 text-right ${isBest('f1') ? 'text-cyan-400 font-bold text-lg' : (row.highlight ? 'text-slate-300' : 'text-slate-400')}`}>{row.f1}</td>
+                              <td className={`py-4 px-4 text-right ${isBest('kappa') ? 'text-cyan-400 font-bold text-lg' : (row.highlight ? 'text-slate-300' : 'text-slate-400')}`}>{row.kappa}</td>
                             </tr>
-                            </thead>
-                            <tbody>
-                            {PROJECT_DETAILS.results.comparison.map((row, i) => {
-                                const isBest = (metric) => row.bestMetrics && row.bestMetrics.includes(metric);
-                                return (
-                                <tr key={i} className={`border-b border-slate-800 transition-colors hover:bg-slate-800/50 ${row.highlight ? 'bg-cyan-900/20 border-cyan-500/30' : ''}`}>
-                                    <td className={`py-4 px-4 ${row.highlight ? 'text-cyan-400 font-bold' : 'text-slate-300'}`}>
-                                        {row.model}
-                                        {row.highlight && <span className="ml-2 text-[10px] bg-cyan-500 text-white px-1.5 py-0.5 rounded-full align-middle">OURS</span>}
-                                    </td>
-                                    <td className={`py-4 px-4 text-right ${isBest('auc') ? 'text-cyan-400 font-bold text-lg' : (row.highlight ? 'text-slate-300' : 'text-slate-400')}`}>{row.auc}</td>
-                                    <td className={`py-4 px-4 text-right ${isBest('acc') ? 'text-cyan-400 font-bold text-lg' : (row.highlight ? 'text-slate-300' : 'text-slate-400')}`}>{row.acc}</td>
-                                    <td className={`py-4 px-4 text-right ${isBest('f1') ? 'text-cyan-400 font-bold text-lg' : (row.highlight ? 'text-slate-300' : 'text-slate-400')}`}>{row.f1}</td>
-                                    <td className={`py-4 px-4 text-right ${isBest('kappa') ? 'text-cyan-400 font-bold text-lg' : (row.highlight ? 'text-slate-300' : 'text-slate-400')}`}>{row.kappa}</td>
-                                </tr>
-                                );
-                            })}
-                            </tbody>
-                        </table>
-                    </div>
-                    <p className="mt-4 text-xs text-slate-500 italic">
-                        * Note: "-" indicates metric not reported in original paper. Comparisons sourced from recent literature.
-                    </p>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                  <p className="mt-4 text-xs text-slate-500 italic">
+                    * Note: "-" indicates metric not reported in original paper. Comparisons sourced from recent literature.
+                  </p>
                 </div>
-                </div>
+              </div>
 
-                {/* GradCAM Visuals */}
-                <div className="mt-16">
+              <div className="mt-16">
                 <h3 className="text-xl font-semibold text-white mb-6 text-center">Explainability Visualization (Grad-CAM)</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {[1, 2, 3, 4].map((i) => (
-                        <div key={i} className="relative aspect-square rounded-lg overflow-hidden bg-black group">
-                            {/* Placeholder for Retina Image */}
-                            <div className="absolute inset-0 bg-slate-800 flex items-center justify-center">
-                            <i className="fas fa-eye text-4xl text-slate-700"></i>
-                            </div>
-                            {/* Overlay Heatmap Simulation */}
-                            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-red-500/30 to-yellow-500/40 opacity-75 mix-blend-overlay"></div>
-                            <div className="absolute bottom-0 w-full p-2 bg-black/60 backdrop-blur-sm text-center">
-                            <span className="text-xs text-white">Class {i}: Severity High</span>
-                            </div>
-                        </div>
-                    ))}
+                  {[1,2,3,4].map((i) => (
+                    <div key={i} className="relative aspect-square rounded-lg overflow-hidden bg-black group">
+                      <div className="absolute inset-0 bg-slate-800 flex items-center justify-center">
+                        <i className="fas fa-eye text-4xl text-slate-700"></i>
+                      </div>
+                      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-red-500/30 to-yellow-500/40 opacity-75 mix-blend-overlay"></div>
+                      <div className="absolute bottom-0 w-full p-2 bg-black/60 backdrop-blur-sm text-center">
+                        <span className="text-xs text-white">Class {i}: Severity High</span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                </div>
+              </div>
             </div>
-        </section>
+          </section>
         );
 
         const Footer = () => (
-        <footer id="discussion" className="bg-slate-950 border-t border-slate-800 py-12">
+          <footer id="discussion" className="bg-slate-950 border-t border-slate-800 py-12">
             <div className="max-w-7xl mx-auto px-4 text-center">
-            <h2 className="text-2xl font-bold text-white mb-4">Discussion & Future Work</h2>
-            <p className="max-w-3xl mx-auto text-slate-400 mb-8 leading-relaxed">
+              <h2 className="text-2xl font-bold text-white mb-4">Discussion & Future Work</h2>
+              <p className="max-w-3xl mx-auto text-slate-400 mb-8 leading-relaxed">
                 The comparative analysis demonstrates that DR-KANTreeNet achieves robust performance, matching or exceeding strong baselines from recent years like TransMIL and MIL-ViT in terms of accuracy and F1 score. However, it still falls slightly short of the latest state-of-the-art models like MIL-ViTa in AUC and Kappa metrics.
                 <br/><br/>
                 Crucially, while MIL-ViTa optimizes purely for predictive performance, DR-KANTreeNet prioritizes <strong>clinical interpretability</strong> via its differentiable decision tree head. Future work will aim to close this performance gap by incorporating more advanced attention mechanisms while retaining the transparency that clinicians require.
-            </p>
-            <div className="flex justify-center space-x-6">
+              </p>
+              <div className="flex justify-center space-x-6">
                 <a href="#" className="text-slate-400 hover:text-white text-2xl"><i className="fab fa-github"></i></a>
                 <a href="#" className="text-slate-400 hover:text-white text-2xl"><i className="fas fa-file-pdf"></i></a>
                 <a href="#" className="text-slate-400 hover:text-white text-2xl"><i className="fab fa-linkedin"></i></a>
+              </div>
+              <p className="mt-8 text-slate-600 text-sm">© 2024 DR-KANTreeNet Project. All rights reserved.</p>
             </div>
-            <p className="mt-8 text-slate-600 text-sm">© 2024 DR-KANTreeNet Project. All rights reserved.</p>
-            </div>
-        </footer>
+          </footer>
         );
 
         // --- AI Chat Widget ---
         const ChatWidget = () => {
-        const [isOpen, setIsOpen] = useState(false);
-        const [messages, setMessages] = useState([
+          const [isOpen, setIsOpen] = useState(false);
+          const [messages, setMessages] = useState([
             {role: 'model', text: 'Hi! I am the AI assistant for DR-KANTreeNet. Ask me anything about the research!'}
-        ]);
-        const [input, setInput] = useState("");
-        const [loading, setLoading] = useState(false);
-        const scrollRef = useRef(null);
-        
-        // Use a ref to keep the chat session instance across renders
-        const chatRef = useRef(null);
+          ]);
+          const [input, setInput] = useState("");
+          const [loading, setLoading] = useState(false);
+          const scrollRef = useRef(null);
+          const chatRef = useRef(null);
 
-        useEffect(() => {
-            if (scrollRef.current) {
-            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-            }
-        }, [messages, isOpen]);
+          useEffect(() => {
+            if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+          }, [messages, isOpen]);
 
-        const handleSend = async () => {
+          const handleSend = async () => {
             if (!input.trim() || loading) return;
-            
+
             const userMsg = input;
             setInput("");
             setMessages(prev => [...prev, {role: 'user', text: userMsg}]);
             setLoading(true);
 
             try {
-            // Initialize the Chat session if it doesn't exist
-            if (!chatRef.current) {
+              if (!chatRef.current) {
                 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
                 chatRef.current = ai.chats.create({
-                model: "gemini-2.5-flash",
-                config: {
-                    systemInstruction: SYSTEM_INSTRUCTION
-                }
+                  model: "gemini-2.5-flash",
+                  config: { systemInstruction: SYSTEM_INSTRUCTION }
                 });
-            }
+              }
 
-            // Send the message using the correct SDK method
-            const result = await chatRef.current.sendMessage({ message: userMsg });
-            // The response text is a property, not a method
-            const response = result.text;
-            
-            setMessages(prev => [...prev, {role: 'model', text: response}]);
+              const result = await chatRef.current.sendMessage({ message: userMsg });
+              const response = result.text;
+              setMessages(prev => [...prev, {role: 'model', text: response}]);
             } catch (error) {
-            console.error("Chat Error:", error);
-            setMessages(prev => [...prev, {role: 'model', text: "Sorry, I encountered an error connecting to the AI. Please check your network or API Key."}]);
+              console.error("Chat Error:", error);
+              setMessages(prev => [...prev, {role: 'model', text: "Sorry, I encountered an error connecting to the AI. Please check your network or API Key."}]);
             } finally {
-            setLoading(false);
+              setLoading(false);
             }
-        };
+          };
 
-        return (
+          return (
             <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
-            {/* Chat Window */}
-            {isOpen && (
+              {isOpen && (
                 <div className="mb-4 w-80 md:w-96 h-[500px] bg-slate-900 rounded-2xl border border-slate-700 shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-10">
-                    <div className="p-4 bg-slate-800 border-b border-slate-700 flex justify-between items-center">
+                  <div className="p-4 bg-slate-800 border-b border-slate-700 flex justify-between items-center">
                     <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></div>
-                        <span className="font-semibold text-white">Project Assistant</span>
+                      <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></div>
+                      <span className="font-semibold text-white">Project Assistant</span>
                     </div>
                     <button onClick={() => setIsOpen(false)} className="text-slate-400 hover:text-white">
-                        <i className="fas fa-times"></i>
+                      <i className="fas fa-times"></i>
                     </button>
-                    </div>
-                    
-                    <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-900/50" ref={scrollRef}>
+                  </div>
+
+                  <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-900/50" ref={scrollRef}>
                     {messages.map((m, i) => (
-                        <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                            <div className={`max-w-[85%] rounded-2xl px-4 py-2 text-sm ${
-                                m.role === 'user' 
-                                ? 'bg-cyan-600 text-white rounded-br-none' 
-                                : 'bg-slate-800 text-slate-200 rounded-bl-none'
-                            }`}>
-                                {m.text}
-                            </div>
+                      <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                        <div className={`max-w-[85%] rounded-2xl px-4 py-2 text-sm ${
+                          m.role === 'user' ? 'bg-cyan-600 text-white rounded-br-none' : 'bg-slate-800 text-slate-200 rounded-bl-none'
+                        }`}>
+                          {m.text}
                         </div>
+                      </div>
                     ))}
                     {loading && (
-                        <div className="flex justify-start">
-                            <div className="bg-slate-800 rounded-2xl rounded-bl-none px-4 py-2 flex gap-1 items-center">
-                            <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></div>
-                            <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                            <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
-                            </div>
+                      <div className="flex justify-start">
+                        <div className="bg-slate-800 rounded-2xl rounded-bl-none px-4 py-2 flex gap-1 items-center">
+                          <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></div>
+                          <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                          <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
                         </div>
+                      </div>
                     )}
-                    </div>
+                  </div>
 
-                    <div className="p-3 bg-slate-800 border-t border-slate-700">
+                  <div className="p-3 bg-slate-800 border-t border-slate-700">
                     <div className="flex gap-2">
-                        <input 
-                            type="text" 
-                            value={input}
-                            onChange={(e) => setInput(e.target.value)}
-                            onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                            placeholder="Ask about accuracy, model..."
-                            className="flex-1 bg-slate-900 border border-slate-600 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500"
-                        />
-                        <button 
-                            onClick={handleSend}
-                            disabled={loading}
-                            className="p-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-500 disabled:opacity-50"
-                        >
-                            <i className="fas fa-paper-plane"></i>
-                        </button>
+                      <input
+                        type="text"
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                        placeholder="Ask about accuracy, model..."
+                        className="flex-1 bg-slate-900 border border-slate-600 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500"
+                      />
+                      <button
+                        onClick={handleSend}
+                        disabled={loading}
+                        className="p-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-500 disabled:opacity-50"
+                      >
+                        <i className="fas fa-paper-plane"></i>
+                      </button>
                     </div>
-                    </div>
+                  </div>
                 </div>
-            )}
+              )}
 
-            {/* Toggle Button */}
-            <button 
+              <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="w-14 h-14 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/30 flex items-center justify-center text-white text-2xl hover:scale-105 transition-transform"
-            >
+              >
                 <i className={`fas ${isOpen ? 'fa-times' : 'fa-robot'}`}></i>
-            </button>
+              </button>
             </div>
-        );
+          );
         };
 
         const App = () => {
-        return (
+          return (
             <div className="min-h-screen">
-            <Navigation />
-            <Hero />
-            <Motivation />
-            <Approach />
-            <Implementation />
-            <Results />
-            <Footer />
-            <ChatWidget />
+              <Navigation />
+              <Hero />
+              <Motivation />
+              <Approach />
+              <Implementation />
+              <Results />
+              <Footer />
+              <ChatWidget />
             </div>
-        );
+          );
         };
 
         const root = createRoot(document.getElementById("root"));
