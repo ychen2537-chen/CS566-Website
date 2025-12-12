@@ -432,6 +432,34 @@ const Approach = () => {
           </p>
         </div>
 
+        
+        {/* Architecture Diagram (inserted into Pipeline section) */}
+<div className="mb-12 bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden">
+  <div className="p-4 md:p-6 border-b border-slate-800 flex items-center justify-between">
+    <div className="text-white font-semibold">
+      <i className="fas fa-sitemap mr-2 text-cyan-400"></i>
+      Enhanced DR-KANTreeNet Architecture
+    </div>
+    <a
+      href={`${BASE_URL}diagram.png`}
+      target="_blank"
+      rel="noreferrer"
+      className="text-xs text-slate-400 hover:text-white border border-slate-700 px-3 py-1 rounded-full"
+    >
+      Open image
+    </a>
+  </div>
+
+  <div className="p-3 md:p-6 bg-black">
+    <img
+      src={`${BASE_URL}diagram.png`}
+      alt="Enhanced DR-KANTreeNet Architecture Diagram"
+      className="w-full h-auto rounded-lg"
+      loading="lazy"
+    />
+  </div>
+</div>
+
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           {/* Left: Navigation / List */}
           <div className="lg:col-span-4 flex flex-col h-full">
