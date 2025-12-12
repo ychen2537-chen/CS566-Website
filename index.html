@@ -182,7 +182,6 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
           </div>
         </div>
 
-        {/* Background Decorative Elements */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse"></div>
           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
@@ -193,7 +192,6 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
     const Motivation = () => (
       <section id="motivation" className="py-24 bg-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Section Header */}
           <div className="text-center mb-20">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">The Imperative for Innovation</h2>
             <div className="w-20 h-1 bg-cyan-500 mx-auto rounded-full"></div>
@@ -201,7 +199,6 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
               Bridging the gap between silent pathology and automated detection through Computer Vision.
             </p>
 
-            {/* Added paragraph */}
             <p className="mt-6 text-slate-300 max-w-5xl mx-auto text-base leading-relaxed bg-slate-800/40 border border-slate-700 rounded-2xl p-6 text-left">
               Diabetic Retinopathy (DR), identified as a predominant complication of diabetes affecting millions globally,
               significantly jeopardizes visual health, leading to adult blindness. Roughly one in three individuals with diabetes
@@ -212,10 +209,8 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
             </p>
           </div>
 
-          {/* Part 1: Clinical Dangers & Visual Comparison */}
           <div className="bg-slate-800/50 rounded-3xl border border-slate-700 overflow-hidden mb-20">
             <div className="grid grid-cols-1 lg:grid-cols-2">
-              {/* Text Content */}
               <div className="p-8 md:p-12 flex flex-col justify-center">
                 <div className="inline-flex items-center gap-2 text-red-400 font-bold tracking-wider text-xs uppercase mb-4">
                   <i className="fas fa-search"></i> Visual Biomarkers
@@ -225,14 +220,13 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
                   <span className="text-cyan-400">Pathological Patterns</span>
                 </h3>
                 <p className="text-slate-300 leading-relaxed mb-6">
-                  Diabetic Retinopathy disrupts the retina&apos;s healthy vascular structure. The disease manifests as
-                  distinct visual anomalies—<strong>hard exudates</strong> (lipid deposits) and hemorrhages—which create
-                  pixel-level contrasts against the retina.
+                  Diabetic Retinopathy disrupts the retina&apos;s healthy vascular structure. The disease manifests as distinct
+                  visual anomalies—<strong>hard exudates</strong> (lipid deposits) and hemorrhages—which create pixel-level
+                  contrasts against the retina.
                 </p>
                 <p className="text-slate-400 text-sm mb-6 border-l-2 border-cyan-500 pl-4 italic">
-                  &quot;It is this exact visual distinction that enables us to employ Computer Vision. By training
-                  KANTreeNet to recognize these specific textures and color gradients, we can automate screening with
-                  superhuman consistency.&quot;
+                  &quot;It is this exact visual distinction that enables us to employ Computer Vision. By training KANTreeNet to
+                  recognize these specific textures and color gradients, we can automate screening with superhuman consistency.&quot;
                 </p>
 
                 <div className="space-y-4">
@@ -251,10 +245,8 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
                 </div>
               </div>
 
-              {/* Visual Content: Comparison */}
               <div className="relative h-full min-h-[400px] bg-slate-900 p-4 md:p-8 flex flex-col justify-center">
                 <div className="grid grid-cols-2 gap-4">
-                  {/* Normal Eye */}
                   <div className="relative aspect-square rounded-xl overflow-hidden group border border-emerald-500/30 shadow-lg shadow-emerald-900/20">
                     <img
                       src="Normal_Eye.png"
@@ -266,13 +258,13 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
                     </div>
                   </div>
 
-                  {/* DR Eye */}
                   <div className="relative aspect-square rounded-xl overflow-hidden group border border-red-500/30 shadow-lg shadow-red-900/20">
                     <img
                       src="DR_Eye.png"
                       alt="Diabetic Retinopathy"
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
+
                     <div className="absolute top-[30%] right-[35%] w-12 h-12 rounded-full border-2 border-yellow-400/80 animate-[ping_2s_infinite]"></div>
                     <div className="absolute bottom-[40%] left-[30%] w-8 h-8 rounded-full border-2 border-yellow-400/80 animate-[ping_2.5s_infinite]"></div>
 
@@ -291,7 +283,6 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
             </div>
           </div>
 
-          {/* Part 2: Technical Motivation Cards */}
           <div className="text-center mb-10">
             <h3 className="text-2xl font-bold text-white">Why KANTreeNet?</h3>
             <p className="text-slate-400 text-sm mt-2">Solving the limitations of traditional Deep Learning</p>
@@ -317,34 +308,69 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
 
     // --- Pipeline Steps (Image-based) ---
     const PIPELINE_STEPS = [
-      { id: 1, title: "Original Fundus Image", subtitle: "Input Data", desc: "Original DR image read from disk.",
-        details: "High-resolution retinal scan captured via fundus photography. Contains raw pixel data including noise and varying lighting conditions that must be processed.",
-        image: "step1_original.jpg"
+      {
+        id: 1,
+        title: "Original Fundus Image",
+        subtitle: "Input Data",
+        desc: "Original DR image read from disk.",
+        details:
+          "High-resolution retinal scan captured via fundus photography. Contains raw pixel data including noise and varying lighting conditions that must be processed.",
+        image: "step1_original.jpg",
       },
-      { id: 2, title: "Resized to (448×448)", subtitle: "Preprocessing", desc: "Resized to model input size and normalized.",
-        details: "Standardization of input dimensions ensures consistent feature extraction across different camera types. Color normalization reduces lighting variance.",
-        image: "step2_resize.jpg"
+      {
+        id: 2,
+        title: "Resized to (448×448)",
+        subtitle: "Preprocessing",
+        desc: "Resized to model input size and normalized.",
+        details:
+          "Standardization of input dimensions ensures consistent feature extraction across different camera types. Color normalization reduces lighting variance.",
+        image: "step2_resize.jpg",
       },
-      { id: 3, title: "Vessel Tree Branch", subtitle: "VesselTreeNet", desc: "Extract vessel-like structures from green channel.",
-        details: "A dedicated vessel extraction branch highlights vascular topology, which is a critical biomarker for diabetic retinopathy progression.",
-        image: "step3_vessel.jpg"
+      {
+        id: 3,
+        title: "Vessel Tree Branch",
+        subtitle: "VesselTreeNet",
+        desc: "Extract vessel-like structures from green channel.",
+        details:
+          "A dedicated vessel extraction branch highlights vascular topology, which is a critical biomarker for diabetic retinopathy progression.",
+        image: "step3_vessel.jpg",
       },
-      { id: 4, title: "Lesion Attention", subtitle: "Local Attention", desc: "Model focuses on lesion-prone regions.",
-        details: "Lesion attention integrates high-level CNN features with the original image to emphasize hemorrhages and exudates.",
-        image: "step4_lesion.jpg"
+      {
+        id: 4,
+        title: "Lesion Attention",
+        subtitle: "Local Attention",
+        desc: "Model focuses on lesion-prone regions.",
+        details:
+          "Lesion attention integrates high-level CNN features with the original image to emphasize hemorrhages and exudates.",
+        image: "step4_lesion.jpg",
       },
-      { id: 5, title: "DAM-Enhanced Local Structures", subtitle: "Discriminative Attention", desc: "Local discriminative textures are amplified.",
-        details: "The KANDAM module strengthens fine-grained lesion patterns while suppressing irrelevant background responses.",
-        image: "step5_dam.jpg"
+      {
+        id: 5,
+        title: "DAM-Enhanced Local Structures",
+        subtitle: "Discriminative Attention",
+        desc: "Local discriminative textures are amplified.",
+        details:
+          "The KANDAM module strengthens fine-grained lesion patterns while suppressing irrelevant background responses.",
+        image: "step5_dam.jpg",
       },
-      { id: 6, title: "ViT-S Global Context", subtitle: "Global Reasoning", desc: "Global attention from Vision Transformer.",
-        details: "ViT captures long-range dependencies and global retinal context that complements local CNN-based features.",
-        image: "step6_vit.jpg"
+      {
+        id: 6,
+        title: "ViT-S Global Context",
+        subtitle: "Global Reasoning",
+        desc: "Global attention from Vision Transformer.",
+        details:
+          "ViT captures long-range dependencies and global retinal context that complements local CNN-based features.",
+        image: "step6_vit.jpg",
       },
-      { id: 7, title: "Final Prediction", subtitle: "Decision Tree Output", desc: "Severity classification probabilities.",
-        details: "A differentiable decision tree aggregates all feature branches and produces an interpretable severity prediction.",
-        image: "step7_prediction.jpg"
-      }
+      {
+        id: 7,
+        title: "Final Prediction",
+        subtitle: "Decision Tree Output",
+        desc: "Severity classification probabilities.",
+        details:
+          "A differentiable decision tree aggregates all feature branches and produces an interpretable severity prediction.",
+        image: "step7_prediction.jpg",
+      },
     ];
 
     const Approach = () => {
@@ -364,7 +390,6 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
       return (
         <section id="approach" className="py-24 bg-slate-950 relative overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            {/* Section Header */}
             <div className="mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">How It Works: The Pipeline</h2>
               <p className="text-slate-400 text-lg max-w-2xl">
@@ -375,7 +400,6 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
               </p>
             </div>
 
-            {/* Architecture Diagram */}
             <div className="mb-12 bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden">
               <div className="p-4 md:p-6 border-b border-slate-800 flex items-center justify-between">
                 <div className="text-white font-semibold">
@@ -431,7 +455,6 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-              {/* Left: Navigation / List */}
               <div className="lg:col-span-4 flex flex-col h-full">
                 <div className="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden flex-1 flex flex-col">
                   <div className="p-4 border-b border-slate-800 bg-slate-800/50 flex justify-between items-center">
@@ -475,15 +498,13 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
                 </div>
               </div>
 
-              {/* Right: Image Demo */}
               <div className="lg:col-span-8">
                 <div className="bg-black rounded-2xl border border-slate-700 shadow-2xl overflow-hidden relative aspect-[4/3] md:aspect-video flex flex-col">
-                  {/* Image */}
                   <div className="relative flex-1 bg-slate-900 flex items-center justify-center overflow-hidden">
                     <img
                       src={step.image}
                       alt={step.title}
-                      className="absolute inset-0 w-full h-full object-contain transition-opacity duration-500"
+                      className="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500"
                       loading="eager"
                       onError={() => {
                         const el = document.getElementById("pipeline-error");
@@ -492,21 +513,21 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
                       }}
                     />
 
-                    {/* Top HUD */}
                     <div className="absolute top-4 left-4 glass-panel rounded-xl px-4 py-2 text-xs text-slate-200 border border-slate-700">
                       <span className="text-cyan-300 font-bold uppercase tracking-wider">Pipeline Demo</span>
                       <span className="mx-2 text-slate-500">|</span>
                       <span className="text-slate-300">Step {activeStep + 1}/{PIPELINE_STEPS.length}</span>
                     </div>
 
-                    <p id="pipeline-error" className="hidden absolute bottom-4 left-4 right-4 text-sm text-red-300 bg-red-500/10 border border-red-500/30 rounded-lg p-3">
+                    <p
+                      id="pipeline-error"
+                      className="hidden absolute bottom-4 left-4 right-4 text-sm text-red-300 bg-red-500/10 border border-red-500/30 rounded-lg p-3"
+                    >
                       Pipeline image failed to load. Please ensure all <code>step*.jpg</code> files are in the same directory as <code>index.html</code>.
                     </p>
                   </div>
 
-                  {/* Step Info Overlay */}
                   <div className="bg-black/80 backdrop-blur-md p-6 border-t border-slate-700">
-                    {/* ✅ Step selector moved BELOW image (no overlay on image) */}
                     <div className="mb-4">
                       <div className="h-2 bg-slate-800 rounded-full overflow-hidden border border-slate-700">
                         <div
@@ -515,7 +536,7 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
                         ></div>
                       </div>
 
-                      <div className="mt-3 flex flex-wrap gap-2 justify-between text-[10px] text-slate-500">
+                      <div className="mt-3 flex flex-wrap gap-2 justify-center text-[10px] text-slate-500">
                         {PIPELINE_STEPS.map((s, i) => (
                           <button
                             key={s.id}
@@ -546,7 +567,6 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
                     <p className="text-slate-500 text-xs mt-2 italic border-l-2 border-slate-700 pl-3">{step.details}</p>
                   </div>
 
-                  {/* Progress Bar (Top) */}
                   <div className="absolute top-0 left-0 w-full h-1 bg-slate-800">
                     <div
                       className="h-full bg-cyan-500 transition-all duration-300"
@@ -571,7 +591,6 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
           <h2 className="text-3xl font-bold text-white mb-12 text-center">Implementation Details</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Code Snippet */}
             <div className="bg-[#1e1e1e] rounded-xl overflow-hidden shadow-2xl border border-slate-700 font-mono text-sm">
               <div className="bg-[#252526] px-4 py-2 flex items-center gap-2 border-b border-black">
                 <div className="w-3 h-3 rounded-full bg-red-500"></div>
@@ -580,7 +599,7 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
                 <span className="ml-2 text-slate-400 text-xs">model.py</span>
               </div>
               <div className="p-4 text-slate-300 overflow-x-auto">
-                <pre>{`class KANTreeNet(nn.Module):
+<pre>{`class KANTreeNet(nn.Module):
     def __init__(self, num_classes=5):
         super().__init__()
         # KAN Feature Extractor
@@ -601,7 +620,6 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
               </div>
             </div>
 
-            {/* Tech Stack */}
             <div className="grid grid-cols-2 gap-4">
               <div className="p-6 bg-slate-800 rounded-xl border border-slate-700">
                 <h3 className="text-white font-semibold mb-4">Dataset</h3>
@@ -625,14 +643,23 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
                 <h3 className="text-white font-semibold mb-4">Stack</h3>
                 <div className="flex gap-4 flex-wrap">
                   {PROJECT_DETAILS.stack.map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-3 py-1 bg-slate-700 rounded-full text-xs text-cyan-300 border border-slate-600"
-                    >
+                    <span key={tech} className="px-3 py-1 bg-slate-700 rounded-full text-xs text-cyan-300 border border-slate-600">
                       {tech}
                     </span>
                   ))}
                 </div>
+              </div>
+
+              {/* Added Evaluation Metrics block (at the bottom of Implementation Details) */}
+              <div className="col-span-2 p-6 bg-slate-800/60 rounded-xl border border-slate-700">
+                <h3 className="text-white font-semibold mb-4">Evaluation Metrics</h3>
+                <p className="text-slate-300 text-sm mb-4">We employ the following evaluation metrics:</p>
+                <ul className="text-sm text-slate-300 space-y-2 leading-relaxed">
+                  <li><span className="text-cyan-300 font-semibold">Accuracy (ACC):</span> Percentage of samples correctly classified by the model.</li>
+                  <li><span className="text-cyan-300 font-semibold">F1 Score:</span> A single number representing the balance between precision and recall.</li>
+                  <li><span className="text-cyan-300 font-semibold">Kappa (K):</span> Agreement between model and human labels beyond chance.</li>
+                  <li><span className="text-cyan-300 font-semibold">AUC:</span> Overall ability to distinguish positive and negative cases across thresholds.</li>
+                </ul>
               </div>
 
             </div>
@@ -646,7 +673,6 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-white mb-12 text-center">Experimental Results</h2>
 
-          {/* Top Metrics Cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
             {[
               { label: "Accuracy", value: PROJECT_DETAILS.results.accuracy, icon: "fa-bullseye", color: "text-cyan-400", border: "border-cyan-500/30" },
@@ -715,47 +741,74 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
             </p>
           </div>
 
-          {/* GradCAM Visuals */}
-          <div className="mt-16">
-            <h3 className="text-xl font-semibold text-white mb-6 text-center">Explainability Visualization (Grad-CAM)</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="relative aspect-square rounded-lg overflow-hidden bg-black group">
-                  <div className="absolute inset-0 bg-slate-800 flex items-center justify-center">
-                    <i className="fas fa-eye text-4xl text-slate-700"></i>
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-red-500/30 to-yellow-500/40 opacity-75 mix-blend-overlay"></div>
-                  <div className="absolute bottom-0 w-full p-2 bg-black/60 backdrop-blur-sm text-center">
-                    <span className="text-xs text-white">Class {i}: Severity High</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
+          {/* Explainability Visualization (Grad-CAM) section removed as requested */}
         </div>
       </section>
     );
 
     const Footer = () => (
       <footer id="discussion" className="bg-slate-950 border-t border-slate-800 py-12">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">Discussion & Future Work</h2>
-          <p className="max-w-3xl mx-auto text-slate-400 mb-8 leading-relaxed">
-            The comparative analysis demonstrates that DR-KANTreeNet achieves robust performance, matching or exceeding strong
-            baselines from recent years like TransMIL and MIL-ViT in terms of accuracy and F1 score. However, it still falls
-            slightly short of the latest state-of-the-art models like MIL-ViTa in AUC and Kappa metrics.
-            <br /><br />
-            Crucially, while MIL-ViTa optimizes purely for predictive performance, DR-KANTreeNet prioritizes <strong>clinical interpretability</strong>{" "}
-            via its differentiable decision tree head. Future work will aim to close this performance gap by incorporating more
-            advanced attention mechanisms while retaining the transparency that clinicians require.
-          </p>
-          <div className="flex justify-center space-x-6">
-            <a href="#" className="text-slate-400 hover:text-white text-2xl"><i className="fab fa-github"></i></a>
-            <a href="#" className="text-slate-400 hover:text-white text-2xl"><i className="fas fa-file-pdf"></i></a>
-            <a href="#" className="text-slate-400 hover:text-white text-2xl"><i className="fab fa-linkedin"></i></a>
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-white mb-4">Discussion & Future Work</h2>
+            <p className="max-w-3xl mx-auto text-slate-400 mb-8 leading-relaxed">
+              The comparative analysis demonstrates that DR-KANTreeNet achieves robust performance, matching or exceeding strong baselines from recent years
+              like TransMIL and MIL-ViT in terms of accuracy and F1 score. However, it still falls slightly short of the latest state-of-the-art models
+              like MIL-ViTa in AUC and Kappa metrics.
+              <br /><br />
+              Crucially, while MIL-ViTa optimizes purely for predictive performance, DR-KANTreeNet prioritizes <strong>clinical interpretability</strong>{" "}
+              via its differentiable decision tree head. Future work will aim to close this performance gap by incorporating more advanced attention
+              mechanisms while retaining the transparency that clinicians require.
+            </p>
+
+            <div className="flex justify-center space-x-6 mb-10">
+              <a href="#" className="text-slate-400 hover:text-white text-2xl"><i className="fab fa-github"></i></a>
+              <a href="#" className="text-slate-400 hover:text-white text-2xl"><i className="fas fa-file-pdf"></i></a>
+              <a href="#" className="text-slate-400 hover:text-white text-2xl"><i className="fab fa-linkedin"></i></a>
+            </div>
           </div>
-          <p className="mt-8 text-slate-600 text-sm">© 2024 DR-KANTreeNet Project. All rights reserved.</p>
+
+          {/* References at the very bottom (inside footer, below Discussion) */}
+          <div className="mt-10 pt-10 border-t border-slate-800">
+            <h3 className="text-xl font-semibold text-white mb-4 text-center">References</h3>
+            <div className="bg-slate-900/60 rounded-2xl border border-slate-800 p-6 md:p-8">
+              <ol className="list-decimal list-inside space-y-4 text-slate-300 leading-relaxed">
+                <li>
+                  K. He, X. Zhang, S. Ren, and J. Sun, “Deep residual learning for image recognition,” in{" "}
+                  <em>Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)</em>, Las Vegas, NV, USA, 2016, pp. 770–778.
+                </li>
+                <li>
+                  A. Dosovitskiy, L. Beyer, A. Kolesnikov, D. Weissenborn, X. Zhai, T. Unterthiner, et al., “An image is worth 16×16 words: Transformers for image recognition at scale,” in{" "}
+                  <em>International Conference on Learning Representations (ICLR)</em>, 2021.
+                </li>
+                <li>
+                  Z. Liu, Y. Wang, S. Vaidya, F. Ruehle, J. Halverson, M. Soljačić, et al., “KAN: Kolmogorov–Arnold networks,” in{" "}
+                  <em>International Conference on Learning Representations (ICLR)</em>, 2025.
+                </li>
+                <li>
+                  T.-Y. Lin, P. Goyal, R. Girshick, K. He, and P. Dollar, “Focal loss for dense object detection,” in{" "}
+                  <em>Proceedings of the IEEE International Conference on Computer Vision (ICCV)</em>, Venice, Italy, 2017, pp. 2999–3007.
+                </li>
+                <li>
+                  C. Szegedy, V. Vanhoucke, S. Ioffe, J. Shlens, and D. Wojna, “Rethinking the Inception architecture for computer vision,” in{" "}
+                  <em>Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)</em>, Las Vegas, NV, USA, 2016, pp. 2818–2826.
+                </li>
+                <li>
+                  X. Wei, Y. Liu, F. Zhang, L. Geng, C. Shan, X. Cao, and Z. Xiao, “MSTNet: Multi-scale spatial-aware transformer with multi-instance learning for diabetic retinopathy classification,”{" "}
+                  <em>Medical Image Analysis</em>, vol. 102, p. 103511, 2025, doi:{" "}
+                  <a className="text-cyan-300 hover:text-cyan-200 underline" href="https://doi.org/10.1016/j.media.2025.103511" target="_blank" rel="noreferrer">
+                    10.1016/j.media.2025.103511
+                  </a>.
+                </li>
+                <li>
+                  H. Zhang, M. Cisse, Y. N. Dauphin, and D. Lopez-Paz, “mixup: Beyond empirical risk minimization,” in{" "}
+                  <em>International Conference on Learning Representations (ICLR)</em>, Vancouver, Canada, 2018, pp. 1–13.
+                </li>
+              </ol>
+            </div>
+          </div>
+
+          <p className="mt-10 text-slate-600 text-sm text-center">© 2024 DR-KANTreeNet Project. All rights reserved.</p>
         </div>
       </footer>
     );
@@ -894,4 +947,5 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
   </script>
 </body>
 </html>
+
 
