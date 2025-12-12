@@ -156,16 +156,21 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
     );
 
     const Hero = () => (
-      <header className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+      <header className="relative pt-32 pb-14 lg:pt-48 lg:pb-16 overflow-hidden">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
           <div className="inline-flex items-center px-3 py-1 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-300 text-xs font-medium mb-6">
             <i className="fas fa-code-branch mr-2"></i> v1.0 Release
           </div>
+
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-white mb-6">
             Interpretable Vision for <br />
             <span className="gradient-text">Diabetic Retinopathy</span>
           </h1>
-          <p className="mt-4 max-w-2xl mx-auto text-xl text-slate-400">{PROJECT_DETAILS.subtitle}</p>
+
+          <p className="mt-4 max-w-2xl mx-auto text-xl text-slate-400">
+            {PROJECT_DETAILS.subtitle}
+          </p>
+
           <div className="mt-8 flex justify-center gap-4">
             <a
               href="#results"
@@ -179,6 +184,86 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
             >
               How it Works
             </a>
+          </div>
+
+          {/* INSERTED LINKS: under buttons, above Motivation */}
+          <div className="mt-10 max-w-4xl mx-auto">
+            <div className="glass-panel rounded-2xl p-5 md:p-6 border border-slate-700 text-left">
+              <div className="flex items-center justify-between flex-wrap gap-3 mb-3">
+                <div className="text-white font-semibold">
+                  <i className="fas fa-folder-open mr-2 text-cyan-400"></i>
+                  Project Materials & Code
+                </div>
+                <a
+                  href="https://github.com/ychen2537-chen/CS566-Project-DR-KANTreeNet-for-Diabetic-Retinopathy-Classification"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-xs text-slate-300 hover:text-white border border-slate-600 hover:border-slate-400 px-3 py-1 rounded-full"
+                >
+                  <i className="fab fa-github mr-1"></i> Open Repository
+                </a>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <a
+                  href="Project%20Proposal.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group flex items-center justify-between gap-3 bg-slate-900/40 border border-slate-700 rounded-xl px-4 py-3 hover:bg-slate-900/60 hover:border-cyan-500/40 transition"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-300">
+                      <i className="fas fa-file-pdf"></i>
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold text-white">Project Proposal</div>
+                      <div className="text-[11px] text-slate-500">PDF</div>
+                    </div>
+                  </div>
+                  <i className="fas fa-arrow-up-right-from-square text-slate-500 group-hover:text-slate-200"></i>
+                </a>
+
+                <a
+                  href="566%20Mid%20Report.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group flex items-center justify-between gap-3 bg-slate-900/40 border border-slate-700 rounded-xl px-4 py-3 hover:bg-slate-900/60 hover:border-cyan-500/40 transition"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-300">
+                      <i className="fas fa-file-pdf"></i>
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold text-white">566 Mid Report</div>
+                      <div className="text-[11px] text-slate-500">PDF</div>
+                    </div>
+                  </div>
+                  <i className="fas fa-arrow-up-right-from-square text-slate-500 group-hover:text-slate-200"></i>
+                </a>
+
+                <a
+                  href="CS566%20Presentation.pptx"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group flex items-center justify-between gap-3 bg-slate-900/40 border border-slate-700 rounded-xl px-4 py-3 hover:bg-slate-900/60 hover:border-cyan-500/40 transition"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-200">
+                      <i className="fas fa-file-powerpoint"></i>
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold text-white">CS566 Presentation</div>
+                      <div className="text-[11px] text-slate-500">PPTX</div>
+                    </div>
+                  </div>
+                  <i className="fas fa-arrow-up-right-from-square text-slate-500 group-hover:text-slate-200"></i>
+                </a>
+              </div>
+
+              <p className="mt-3 text-xs text-slate-500">
+                If a file does not open on GitHub Pages, ensure it is committed to the same folder as <code>index.html</code> and the filename casing matches exactly.
+              </p>
+            </div>
           </div>
         </div>
 
@@ -308,69 +393,27 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
 
     // --- Pipeline Steps (Image-based) ---
     const PIPELINE_STEPS = [
-      {
-        id: 1,
-        title: "Original Fundus Image",
-        subtitle: "Input Data",
-        desc: "Original DR image read from disk.",
-        details:
-          "High-resolution retinal scan captured via fundus photography. Contains raw pixel data including noise and varying lighting conditions that must be processed.",
-        image: "step1_original.jpg",
-      },
-      {
-        id: 2,
-        title: "Resized to (448×448)",
-        subtitle: "Preprocessing",
-        desc: "Resized to model input size and normalized.",
-        details:
-          "Standardization of input dimensions ensures consistent feature extraction across different camera types. Color normalization reduces lighting variance.",
-        image: "step2_resize.jpg",
-      },
-      {
-        id: 3,
-        title: "Vessel Tree Branch",
-        subtitle: "VesselTreeNet",
-        desc: "Extract vessel-like structures from green channel.",
-        details:
-          "A dedicated vessel extraction branch highlights vascular topology, which is a critical biomarker for diabetic retinopathy progression.",
-        image: "step3_vessel.jpg",
-      },
-      {
-        id: 4,
-        title: "Lesion Attention",
-        subtitle: "Local Attention",
-        desc: "Model focuses on lesion-prone regions.",
-        details:
-          "Lesion attention integrates high-level CNN features with the original image to emphasize hemorrhages and exudates.",
-        image: "step4_lesion.jpg",
-      },
-      {
-        id: 5,
-        title: "DAM-Enhanced Local Structures",
-        subtitle: "Discriminative Attention",
-        desc: "Local discriminative textures are amplified.",
-        details:
-          "The KANDAM module strengthens fine-grained lesion patterns while suppressing irrelevant background responses.",
-        image: "step5_dam.jpg",
-      },
-      {
-        id: 6,
-        title: "ViT-S Global Context",
-        subtitle: "Global Reasoning",
-        desc: "Global attention from Vision Transformer.",
-        details:
-          "ViT captures long-range dependencies and global retinal context that complements local CNN-based features.",
-        image: "step6_vit.jpg",
-      },
-      {
-        id: 7,
-        title: "Final Prediction",
-        subtitle: "Decision Tree Output",
-        desc: "Severity classification probabilities.",
-        details:
-          "A differentiable decision tree aggregates all feature branches and produces an interpretable severity prediction.",
-        image: "step7_prediction.jpg",
-      },
+      { id: 1, title: "Original Fundus Image", subtitle: "Input Data", desc: "Original DR image read from disk.",
+        details: "High-resolution retinal scan captured via fundus photography. Contains raw pixel data including noise and varying lighting conditions that must be processed.",
+        image: "step1_original.jpg" },
+      { id: 2, title: "Resized to (448×448)", subtitle: "Preprocessing", desc: "Resized to model input size and normalized.",
+        details: "Standardization of input dimensions ensures consistent feature extraction across different camera types. Color normalization reduces lighting variance.",
+        image: "step2_resize.jpg" },
+      { id: 3, title: "Vessel Tree Branch", subtitle: "VesselTreeNet", desc: "Extract vessel-like structures from green channel.",
+        details: "A dedicated vessel extraction branch highlights vascular topology, which is a critical biomarker for diabetic retinopathy progression.",
+        image: "step3_vessel.jpg" },
+      { id: 4, title: "Lesion Attention", subtitle: "Local Attention", desc: "Model focuses on lesion-prone regions.",
+        details: "Lesion attention integrates high-level CNN features with the original image to emphasize hemorrhages and exudates.",
+        image: "step4_lesion.jpg" },
+      { id: 5, title: "DAM-Enhanced Local Structures", subtitle: "Discriminative Attention", desc: "Local discriminative textures are amplified.",
+        details: "The KANDAM module strengthens fine-grained lesion patterns while suppressing irrelevant background responses.",
+        image: "step5_dam.jpg" },
+      { id: 6, title: "ViT-S Global Context", subtitle: "Global Reasoning", desc: "Global attention from Vision Transformer.",
+        details: "ViT captures long-range dependencies and global retinal context that complements local CNN-based features.",
+        image: "step6_vit.jpg" },
+      { id: 7, title: "Final Prediction", subtitle: "Decision Tree Output", desc: "Severity classification probabilities.",
+        details: "A differentiable decision tree aggregates all feature branches and produces an interpretable severity prediction.",
+        image: "step7_prediction.jpg" },
     ];
 
     const Approach = () => {
@@ -476,10 +519,7 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
                     {PIPELINE_STEPS.map((s, idx) => (
                       <button
                         key={s.id}
-                        onClick={() => {
-                          setActiveStep(idx);
-                          setIsPlaying(false);
-                        }}
+                        onClick={() => { setActiveStep(idx); setIsPlaying(false); }}
                         className={`w-full text-left p-4 border-b border-slate-800/50 transition-all hover:bg-slate-800 ${
                           activeStep === idx ? "bg-slate-800/80 border-l-4 border-l-cyan-500" : "border-l-4 border-l-transparent"
                         }`}
@@ -500,11 +540,12 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
 
               <div className="lg:col-span-8">
                 <div className="bg-black rounded-2xl border border-slate-700 shadow-2xl overflow-hidden relative aspect-[4/3] md:aspect-video flex flex-col">
-                  <div className="relative flex-1 bg-slate-900 flex items-center justify-center overflow-hidden">
+                  {/* VISUAL AREA: changed to object-contain + centered, so it will not “cover/crop” and won’t feel like it blocks content */}
+                  <div className="relative flex-1 bg-slate-950 flex items-center justify-center overflow-hidden p-3 md:p-4">
                     <img
                       src={step.image}
                       alt={step.title}
-                      className="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500"
+                      className="max-w-full max-h-full object-contain rounded-lg bg-black"
                       loading="eager"
                       onError={() => {
                         const el = document.getElementById("pipeline-error");
@@ -540,10 +581,7 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
                         {PIPELINE_STEPS.map((s, i) => (
                           <button
                             key={s.id}
-                            onClick={() => {
-                              setActiveStep(i);
-                              setIsPlaying(false);
-                            }}
+                            onClick={() => { setActiveStep(i); setIsPlaying(false); }}
                             className={`px-2 py-0.5 rounded-md border transition-colors ${
                               i === activeStep
                                 ? "border-cyan-500/40 text-cyan-300 bg-cyan-500/10"
@@ -650,7 +688,6 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
                 </div>
               </div>
 
-              {/* Added Evaluation Metrics block (at the bottom of Implementation Details) */}
               <div className="col-span-2 p-6 bg-slate-800/60 rounded-xl border border-slate-700">
                 <h3 className="text-white font-semibold mb-4">Evaluation Metrics</h3>
                 <p className="text-slate-300 text-sm mb-4">We employ the following evaluation metrics:</p>
@@ -661,7 +698,6 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
                   <li><span className="text-cyan-300 font-semibold">AUC:</span> Overall ability to distinguish positive and negative cases across thresholds.</li>
                 </ul>
               </div>
-
             </div>
           </div>
         </div>
@@ -740,8 +776,6 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
               * Note: "-" indicates metric not reported in original paper. Comparisons sourced from recent literature.
             </p>
           </div>
-
-          {/* Explainability Visualization (Grad-CAM) section removed as requested */}
         </div>
       </section>
     );
@@ -768,7 +802,6 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
             </div>
           </div>
 
-          {/* References at the very bottom (inside footer, below Discussion) */}
           <div className="mt-10 pt-10 border-t border-slate-800">
             <h3 className="text-xl font-semibold text-white mb-4 text-center">References</h3>
             <div className="bg-slate-900/60 rounded-2xl border border-slate-800 p-6 md:p-8">
@@ -947,5 +980,3 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
   </script>
 </body>
 </html>
-
-
