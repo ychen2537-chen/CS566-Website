@@ -197,12 +197,11 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
           <div className="text-center mb-20">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">The Imperative for Innovation</h2>
             <div className="w-20 h-1 bg-cyan-500 mx-auto rounded-full"></div>
-
             <p className="mt-6 text-slate-400 max-w-2xl mx-auto text-lg">
               Bridging the gap between silent pathology and automated detection through Computer Vision.
             </p>
 
-            {/* ✅ Added motivation paragraph */}
+            {/* Added paragraph */}
             <p className="mt-6 text-slate-300 max-w-5xl mx-auto text-base leading-relaxed bg-slate-800/40 border border-slate-700 rounded-2xl p-6 text-left">
               Diabetic Retinopathy (DR), identified as a predominant complication of diabetes affecting millions globally,
               significantly jeopardizes visual health, leading to adult blindness. Roughly one in three individuals with diabetes
@@ -267,15 +266,13 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
                     </div>
                   </div>
 
-                  {/* DR Eye with Annotations */}
+                  {/* DR Eye */}
                   <div className="relative aspect-square rounded-xl overflow-hidden group border border-red-500/30 shadow-lg shadow-red-900/20">
                     <img
                       src="DR_Eye.png"
                       alt="Diabetic Retinopathy"
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
-
-                    {/* CV Detection Simulation Overlay */}
                     <div className="absolute top-[30%] right-[35%] w-12 h-12 rounded-full border-2 border-yellow-400/80 animate-[ping_2s_infinite]"></div>
                     <div className="absolute bottom-[40%] left-[30%] w-8 h-8 rounded-full border-2 border-yellow-400/80 animate-[ping_2.5s_infinite]"></div>
 
@@ -318,7 +315,7 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
       </section>
     );
 
-    // --- Pipeline Steps ---
+    // --- Pipeline Steps (Image-based) ---
     const PIPELINE_STEPS = [
       {
         id: 1,
@@ -326,118 +323,77 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
         subtitle: "Input Data",
         desc: "Original DR image read from disk.",
         details:
-          "High-resolution retinal scan captured via fundus photography. Contains raw pixel data including noise and varying lighting conditions that must be processed."
+          "High-resolution retinal scan captured via fundus photography. Contains raw pixel data including noise and varying lighting conditions that must be processed.",
+        image: "step1_original.jpg",
       },
       {
         id: 2,
-        title: "Resized to (448x448)",
+        title: "Resized to (448×448)",
         subtitle: "Preprocessing",
         desc: "Resized to model input size and normalized.",
         details:
-          "Standardization of input dimensions ensures consistent feature extraction across different camera types. Color normalization reduces lighting variance."
+          "Standardization of input dimensions ensures consistent feature extraction across different camera types. Color normalization reduces lighting variance.",
+        image: "step2_resize.jpg",
       },
       {
         id: 3,
         title: "Vessel Tree Branch",
         subtitle: "VesselTreeNet",
-        desc: "Extract vessel-like structures and vascular anomalies.",
+        desc: "Extract vessel-like structures from green channel.",
         details:
-          "A dedicated segmentation branch captures vessel topology to surface structural biomarkers such as tortuosity and leakage patterns."
+          "A dedicated vessel extraction branch highlights vascular topology, which is a critical biomarker for diabetic retinopathy progression.",
+        image: "step3_vessel.jpg",
       },
       {
         id: 4,
         title: "Lesion Attention",
         subtitle: "Local Attention",
-        desc: "Focus on lesion regions (microaneurysms, hemorrhages).",
+        desc: "Model focuses on lesion-prone regions.",
         details:
-          "Lesion attention guides the network toward clinically salient local evidence for grading DR severity."
+          "Lesion attention integrates high-level CNN features with the original image to emphasize hemorrhages and exudates.",
+        image: "step4_lesion.jpg",
       },
       {
         id: 5,
-        title: "Dual ViT Context",
-        subtitle: "Global Reasoning",
-        desc: "Global context aggregation from transformer branches.",
+        title: "DAM-Enhanced Local Structures",
+        subtitle: "Discriminative Attention",
+        desc: "Local discriminative textures are amplified.",
         details:
-          "Transformers capture long-range dependencies and global retinal health signals missed by purely local filters."
+          "The KANDAM module strengthens fine-grained lesion patterns while suppressing irrelevant background responses.",
+        image: "step5_dam.jpg",
       },
       {
         id: 6,
-        title: "Feature Fusion",
-        subtitle: "Concatenation",
-        desc: "Fuse local, global, and vessel features into a unified representation.",
+        title: "ViT-S Global Context",
+        subtitle: "Global Reasoning",
+        desc: "Global attention from Vision Transformer.",
         details:
-          "Multi-branch features are concatenated and projected, enabling complementary evidence integration."
+          "ViT captures long-range dependencies and global retinal context that complements local CNN-based features.",
+        image: "step6_vit.jpg",
       },
       {
         id: 7,
         title: "Final Prediction",
-        subtitle: "Decision Head",
-        desc: "Transparent diagnosis via decision routing.",
+        subtitle: "Decision Tree Output",
+        desc: "Severity classification probabilities.",
         details:
-          "The final head outputs a probabilistic diagnosis and supports interpretability through structured decision-making."
-      }
+          "A differentiable decision tree aggregates all feature branches and produces an interpretable severity prediction.",
+        image: "step7_prediction.jpg",
+      },
     ];
 
     const Approach = () => {
-      const SEGMENT_SECONDS = 2; // ✅ each step = 2s
-      const videoRef = useRef(null);
-
       const [activeStep, setActiveStep] = useState(0);
-      const [isAutoplay, setIsAutoplay] = useState(false);
-      const [videoReady, setVideoReady] = useState(false);
-      const [videoError, setVideoError] = useState(false);
+      const [isPlaying, setIsPlaying] = useState(false);
 
-      const segStart = (index) => index * SEGMENT_SECONDS;
-      const segEnd = (index) => (index + 1) * SEGMENT_SECONDS;
-
-      // When activeStep changes: seek to segment start, play; if not autoplay, pause at segment end.
+      // Auto-play: switch every 2 seconds
       useEffect(() => {
-        const v = videoRef.current;
-        if (!v) return;
-        if (!videoReady) return;
-
-        const start = segStart(activeStep);
-        const end = segEnd(activeStep);
-
-        const run = async () => {
-          try {
-            v.currentTime = start;
-            await v.play();
-
-            if (!isAutoplay) {
-              const stopAtEnd = () => {
-                if (v.currentTime >= end - 0.03) {
-                  v.pause();
-                  v.removeEventListener("timeupdate", stopAtEnd);
-                }
-              };
-              v.addEventListener("timeupdate", stopAtEnd);
-            }
-          } catch (e) {
-            console.error("video play failed:", e);
-          }
-        };
-
-        run();
-      }, [activeStep, isAutoplay, videoReady]);
-
-      // Autoplay mode: when reaching segment end, advance to next step
-      useEffect(() => {
-        if (!isAutoplay) return;
-        const v = videoRef.current;
-        if (!v) return;
-
-        const onTimeUpdate = () => {
-          const end = segEnd(activeStep);
-          if (v.currentTime >= end - 0.03) {
-            const next = (activeStep + 1) % PIPELINE_STEPS.length;
-            setActiveStep(next);
-          }
-        };
-
-        v.addEventListener("timeupdate", onTimeUpdate);
-        return () => v.removeEventListener("timeupdate", onTimeUpdate);
-      }, [isAutoplay, activeStep]);
+        if (!isPlaying) return;
+        const timer = setInterval(() => {
+          setActiveStep((prev) => (prev + 1) % PIPELINE_STEPS.length);
+        }, 2000);
+        return () => clearInterval(timer);
+      }, [isPlaying]);
 
       const step = PIPELINE_STEPS[activeStep];
 
@@ -451,7 +407,7 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
                 A step-by-step breakdown of how DR-KANTreeNet processes a retinal scan, from raw input to final diagnosis.
               </p>
               <p className="mt-3 text-slate-500 text-sm">
-                Demo note: each step corresponds to a 2-second segment in <code>kantree_analysis_demo.mp4</code>.
+                Demo mode: image sequence synchronized to steps (2s per step).
               </p>
             </div>
 
@@ -481,7 +437,7 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
                   onError={() => {
                     const el = document.getElementById("diagram-error");
                     if (el) el.classList.remove("hidden");
-                    console.error("Failed to load diagram.png. Verify it exists at /CS566-Website/diagram.png");
+                    console.error("Failed to load diagram.png. Verify it exists next to index.html and filename casing matches.");
                   }}
                 />
 
@@ -512,21 +468,21 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-              {/* Left: Steps */}
+              {/* Left: Navigation / List */}
               <div className="lg:col-span-4 flex flex-col h-full">
                 <div className="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden flex-1 flex flex-col">
                   <div className="p-4 border-b border-slate-800 bg-slate-800/50 flex justify-between items-center">
                     <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Processing Steps</span>
                     <button
-                      onClick={() => setIsAutoplay(!isAutoplay)}
+                      onClick={() => setIsPlaying(!isPlaying)}
                       className={`text-xs px-3 py-1 rounded-full border transition-all ${
-                        isAutoplay
+                        isPlaying
                           ? "border-red-500 text-red-400 hover:bg-red-500/10"
                           : "border-emerald-500 text-emerald-400 hover:bg-emerald-500/10"
                       }`}
                     >
-                      <i className={`fas ${isAutoplay ? "fa-pause" : "fa-play"} mr-1`}></i>
-                      {isAutoplay ? "Pause Demo" : "Play Demo"}
+                      <i className={`fas ${isPlaying ? "fa-pause" : "fa-play"} mr-1`}></i>
+                      {isPlaying ? "Pause Demo" : "Play Demo"}
                     </button>
                   </div>
 
@@ -536,20 +492,14 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
                         key={s.id}
                         onClick={() => {
                           setActiveStep(idx);
-                          setIsAutoplay(false);
+                          setIsPlaying(false);
                         }}
                         className={`w-full text-left p-4 border-b border-slate-800/50 transition-all hover:bg-slate-800 ${
-                          activeStep === idx
-                            ? "bg-slate-800/80 border-l-4 border-l-cyan-500"
-                            : "border-l-4 border-l-transparent"
+                          activeStep === idx ? "bg-slate-800/80 border-l-4 border-l-cyan-500" : "border-l-4 border-l-transparent"
                         }`}
                       >
                         <div className="flex justify-between items-start mb-1">
-                          <span
-                            className={`text-xs font-bold uppercase tracking-wider ${
-                              activeStep === idx ? "text-cyan-400" : "text-slate-500"
-                            }`}
-                          >
+                          <span className={`text-xs font-bold uppercase tracking-wider ${activeStep === idx ? "text-cyan-400" : "text-slate-500"}`}>
                             Step {s.id}
                           </span>
                           {activeStep === idx && <i className="fas fa-chevron-right text-cyan-500 text-xs animate-pulse"></i>}
@@ -562,47 +512,32 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
                 </div>
               </div>
 
-              {/* Right: Video Demo (paper-grade) */}
+              {/* Right: Image Demo */}
               <div className="lg:col-span-8">
                 <div className="bg-black rounded-2xl border border-slate-700 shadow-2xl overflow-hidden relative aspect-[4/3] md:aspect-video flex flex-col">
+                  {/* Image */}
                   <div className="relative flex-1 bg-slate-900 flex items-center justify-center overflow-hidden">
-                    {/* Video */}
-                    <video
-                      ref={videoRef}
-                      src="kantree_analysis_demo.mp4"
-                      className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300"
-                      muted
-                      playsInline
-                      preload="auto"
-                      onLoadedMetadata={() => setVideoReady(true)}
-                      onError={() => setVideoError(true)}
+                    <img
+                      src={step.image}
+                      alt={step.title}
+                      className="absolute inset-0 w-full h-full object-contain transition-opacity duration-500"
+                      loading="eager"
+                      onError={() => {
+                        const el = document.getElementById("pipeline-error");
+                        if (el) el.classList.remove("hidden");
+                        console.error("Failed to load pipeline image:", step.image);
+                      }}
                     />
 
-                    {/* Fallback */}
-                    {videoError && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-black">
-                        <div className="text-sm text-red-300 bg-red-500/10 border border-red-500/30 rounded-lg p-4 max-w-md text-center">
-                          Failed to load <code>kantree_analysis_demo.mp4</code>. Please ensure it is in the same folder as{" "}
-                          <code>index.html</code> on GitHub Pages.
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Top-left HUD */}
+                    {/* Top HUD */}
                     <div className="absolute top-4 left-4 glass-panel rounded-xl px-4 py-2 text-xs text-slate-200 border border-slate-700">
-                      <div className="flex items-center gap-2">
-                        <span className="text-cyan-300 font-bold uppercase tracking-wider">Pipeline Demo</span>
-                        <span className="text-slate-500">|</span>
-                        <span className="text-slate-300">Segment: {activeStep + 1}/{PIPELINE_STEPS.length}</span>
-                        <span className="text-slate-500">|</span>
-                        <span className="text-slate-400">
-                          t = {segStart(activeStep).toFixed(0)}–{segEnd(activeStep).toFixed(0)}s
-                        </span>
-                      </div>
+                      <span className="text-cyan-300 font-bold uppercase tracking-wider">Pipeline Demo</span>
+                      <span className="mx-2 text-slate-500">|</span>
+                      <span className="text-slate-300">Step {activeStep + 1}/{PIPELINE_STEPS.length}</span>
                     </div>
 
-                    {/* Bottom timeline */}
-                    <div className="absolute bottom-20 left-6 right-6">
+                    {/* Bottom small step buttons */}
+                    <div className="absolute bottom-24 left-6 right-6">
                       <div className="h-2 bg-slate-800 rounded-full overflow-hidden border border-slate-700">
                         <div
                           className="h-full bg-cyan-500 transition-all duration-300"
@@ -615,7 +550,7 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
                             key={s.id}
                             onClick={() => {
                               setActiveStep(i);
-                              setIsAutoplay(false);
+                              setIsPlaying(false);
                             }}
                             className={`px-2 py-0.5 rounded-md border transition-colors ${
                               i === activeStep
@@ -628,35 +563,36 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
                           </button>
                         ))}
                       </div>
-                    </div>
 
-                    {/* Step Info Overlay */}
-                    <div className="absolute bottom-0 w-full bg-black/80 backdrop-blur-md p-6 border-t border-slate-700">
-                      <div>
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="text-cyan-400 text-xs font-bold uppercase">{step.subtitle}</span>
-                          <span className="text-slate-600 text-xs">|</span>
-                          <span className="text-slate-400 text-xs">Frame 0{step.id}</span>
-                        </div>
-                        <h3 className="text-xl text-white font-bold mb-2">{step.title}</h3>
-                        <p className="text-slate-300 text-sm max-w-3xl">{step.desc}</p>
-                        <p className="text-slate-500 text-xs mt-2 italic border-l-2 border-slate-700 pl-3">{step.details}</p>
-                      </div>
+                      <p id="pipeline-error" className="hidden mt-3 text-sm text-red-300 bg-red-500/10 border border-red-500/30 rounded-lg p-3">
+                        Pipeline image failed to load. Please ensure all <code>step*.jpg</code> files are in the same directory as <code>index.html</code>.
+                      </p>
                     </div>
+                  </div>
 
-                    {/* Progress bar (top) */}
-                    <div className="absolute top-0 left-0 w-full h-1 bg-slate-800">
-                      <div
-                        className="h-full bg-cyan-500 transition-all duration-300"
-                        style={{ width: `${((activeStep + 1) / PIPELINE_STEPS.length) * 100}%` }}
-                      ></div>
+                  {/* Step Info Overlay */}
+                  <div className="bg-black/80 backdrop-blur-md p-6 border-t border-slate-700">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-cyan-400 text-xs font-bold uppercase">{step.subtitle}</span>
+                      <span className="text-slate-600 text-xs">|</span>
+                      <span className="text-slate-400 text-xs">Frame 0{step.id}</span>
                     </div>
+                    <h3 className="text-xl text-white font-bold mb-2">{step.title}</h3>
+                    <p className="text-slate-300 text-sm max-w-3xl">{step.desc}</p>
+                    <p className="text-slate-500 text-xs mt-2 italic border-l-2 border-slate-700 pl-3">{step.details}</p>
+                  </div>
+
+                  {/* Progress Bar (Top) */}
+                  <div className="absolute top-0 left-0 w-full h-1 bg-slate-800">
+                    <div
+                      className="h-full bg-cyan-500 transition-all duration-300"
+                      style={{ width: `${((activeStep + 1) / PIPELINE_STEPS.length) * 100}%` }}
+                    ></div>
                   </div>
                 </div>
 
-                {/* Optional caption */}
                 <p className="mt-4 text-xs text-slate-500">
-                  Figure: Pipeline demonstration video synchronized to step transitions (2s per step). Click step numbers to jump.
+                  Figure: Pipeline image sequence synchronized to step transitions (2s per step). Click steps to jump.
                 </p>
               </div>
             </div>
@@ -725,12 +661,16 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
                 <h3 className="text-white font-semibold mb-4">Stack</h3>
                 <div className="flex gap-4 flex-wrap">
                   {PROJECT_DETAILS.stack.map((tech) => (
-                    <span key={tech} className="px-3 py-1 bg-slate-700 rounded-full text-xs text-cyan-300 border border-slate-600">
+                    <span
+                      key={tech}
+                      className="px-3 py-1 bg-slate-700 rounded-full text-xs text-cyan-300 border border-slate-600"
+                    >
                       {tech}
                     </span>
                   ))}
                 </div>
               </div>
+
             </div>
           </div>
         </div>
@@ -761,7 +701,6 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
             ))}
           </div>
 
-          {/* Performance Table */}
           <div className="bg-slate-900 rounded-xl border border-slate-800 p-6">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-xl font-semibold text-white">Comparative Analysis on APTOS 2019</h3>
@@ -786,9 +725,7 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
                     return (
                       <tr
                         key={i}
-                        className={`border-b border-slate-800 transition-colors hover:bg-slate-800/50 ${
-                          row.highlight ? "bg-cyan-900/20 border-cyan-500/30" : ""
-                        }`}
+                        className={`border-b border-slate-800 transition-colors hover:bg-slate-800/50 ${row.highlight ? "bg-cyan-900/20 border-cyan-500/30" : ""}`}
                       >
                         <td className={`py-4 px-4 ${row.highlight ? "text-cyan-400 font-bold" : "text-slate-300"}`}>
                           {row.model}
@@ -810,7 +747,7 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
             </div>
 
             <p className="mt-4 text-xs text-slate-500 italic">
-              * Note: &quot;-&quot; indicates metric not reported in original paper. Comparisons sourced from recent literature.
+              * Note: "-" indicates metric not reported in original paper. Comparisons sourced from recent literature.
             </p>
           </div>
 
@@ -876,7 +813,6 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
 
       const handleSend = async () => {
         if (!input.trim() || loading) return;
-
         const userMsg = input;
         setInput("");
         setMessages((prev) => [...prev, { role: "user", text: userMsg }]);
@@ -890,7 +826,6 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
               config: { systemInstruction: SYSTEM_INSTRUCTION },
             });
           }
-
           const result = await chatRef.current.sendMessage({ message: userMsg });
           const response = result.text;
           setMessages((prev) => [...prev, { role: "model", text: response }]);
@@ -995,4 +930,5 @@ Answer questions concisely, professionally, and enthusiastically. If asked about
   </script>
 </body>
 </html>
+
 
