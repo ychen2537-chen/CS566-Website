@@ -378,43 +378,49 @@
                   </div>
 
                   <div className="p-3 md:p-6 bg-black">
-                    <img
-  src="diagram.png?v=1"
-  alt="Enhanced DR-KANTreeNet Architecture Diagram"
-  className="w-full h-auto rounded-lg"
-  loading="lazy"
-/>
+  <img
+    src="diagram.png?v=1"
+    alt="Enhanced DR-KANTreeNet Architecture Diagram"
+    className="w-full h-auto rounded-lg"
+    loading="lazy"
+    onError={(e) => {
+      const el = document.getElementById("diagram-error");
+      if (el) el.classList.remove("hidden");
+      console.error(
+        "Failed to load diagram.png. Verify it exists at /CS566-Website/diagram.png"
+      );
+    }}
+  />
 
-<div className="mt-4 p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-2 text-slate-300 text-sm leading-relaxed">
-  <p>
-    <span className="font-semibold text-cyan-300">The Detail Expert:</span>{" "}
-    Hunts for tiny red dots and hemorrhages using a "zoom lens" (ResNet + Lesion Attention).
-  </p>
-  <p>
-    <span className="font-semibold text-cyan-300">The Big-Picture Expert:</span>{" "}
-    Looks at the overall health of the retina using two global scanners (Dual ViT) to spot widespread damage.
-  </p>
-  <p>
-    <span className="font-semibold text-cyan-300">The Vessel Expert:</span>{" "}
-    Traces the "tree" of blood vessels to check for twisting or leakage, which are key signs of the disease.
+  {/* Text explanation BELOW the image */}
+  <div className="mt-4 p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-2 text-slate-300 text-sm leading-relaxed">
+    <p>
+      <span className="font-semibold text-cyan-300">The Detail Expert:</span>{" "}
+      Hunts for tiny red dots and hemorrhages using a &quot;zoom lens&quot;
+      (ResNet + Lesion Attention).
+    </p>
+    <p>
+      <span className="font-semibold text-cyan-300">The Big-Picture Expert:</span>{" "}
+      Looks at the overall health of the retina using two global scanners
+      (Dual ViT) to spot widespread damage.
+    </p>
+    <p>
+      <span className="font-semibold text-cyan-300">The Vessel Expert:</span>{" "}
+      Traces the &quot;tree&quot; of blood vessels to check for twisting or
+      leakage, which are key signs of the disease.
+    </p>
+  </div>
+
+  {/* Error message (only shown if image fails to load) */}
+  <p
+    id="diagram-error"
+    className="hidden mt-3 text-sm text-red-300 bg-red-500/10 border border-red-500/30 rounded-lg p-3"
+  >
+    diagram.png failed to load. Please ensure{" "}
+    <code>diagram.png</code> is in the same directory as
+    <code> index.html</code> on GitHub Pages (and filename casing matches exactly).
   </p>
 </div>
-
-                      onError={() => {
-                        const el = document.getElementById("diagram-error");
-                        if (el) el.classList.remove("hidden");
-                        console.error("Failed to load diagram.png. Verify it exists at /CS566-Website/diagram.png");
-                      }}
-                    />
-                    <p
-                      id="diagram-error"
-                      className="hidden mt-3 text-sm text-red-300 bg-red-500/10 border border-red-500/30 rounded-lg p-3"
-                    >
-                      diagram.png failed to load. Please ensure <code>diagram.png</code> is in the same directory as
-                      <code> index.html</code> on GitHub Pages (and filename casing matches exactly).
-                    </p>
-                  </div>
-                </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
                 
